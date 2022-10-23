@@ -1,6 +1,8 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-
+const { title } = require('process');
+const Manager = require('./lib/Manager')
+const renderHTML = require('./lib/generateHTML')
 const team = [];
 
 
@@ -21,7 +23,7 @@ inquirer
     }else if(answers.starter === "intern"){
         teamInternInfo()
     }else {
-        addEmployee()
+       fs.writeFileSync(path.join(__dirname,"/dist/", 'index.html'), renderHTML(team))
     }
 })
 const addEmployee = () => {
@@ -54,9 +56,10 @@ const addEmployee = () => {
 const addManager = () => {
 inquirer
 .prompt([
+    
     {
         type: 'input',
-        name: 'manager',
+        name: 'name',
         message: "What is the team manager's name?",
     },
     {
@@ -76,8 +79,8 @@ inquirer
     },
 ])
 .then((answers) => {
-    
-    team.push(answers);
+    const manager = new Manager(answers.name, answers.id, answers.email, answers.number)
+    team.push(manager);
     console.log(team);
     addOns()
 })
@@ -101,7 +104,7 @@ const addOns = () => {
             addManager();
         }
         else{
-            renderHTML(answers);
+            renderCards(answers);
             console.log(answers);
         }
     })
@@ -132,6 +135,7 @@ const teamMemberInfo = () => {
         },
     ])
     .then((answers) => {
+
         team.push(answers)
         console.log(team)
         addOns()
@@ -171,7 +175,22 @@ const teamMemberInfo = () => {
         })
         
         }
-
+/*const renderCards = (team) => {
+    for(let i = 0; i < team.length-1; i++){
+        let name = team[i].name;
+        `<div class="card" style="width: 18rem;">
+        <div class="card-header">
+          ${name}<br>
+          ${title}
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+      </div>`
+    }
+}
 
 
 
