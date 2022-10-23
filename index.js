@@ -1,20 +1,67 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 
-
-
+const team = [];
 
 
 inquirer
 .prompt([
     {
+        type: 'list',
+        name: 'starter',
+        message: "What position would you like to add on the team?",
+        choices: ["manager", "engineer", "intern", "employee"],
+    },
+])
+.then((answers) => {
+    if(answers.starter === "manager"){
+        addManager()
+    }else if(answers.starter === "engineer"){
+        teamMemberInfo()
+    }else if(answers.starter === "intern"){
+        teamInternInfo()
+    }else {
+        addEmployee()
+    }
+})
+const addEmployee = () => {
+    inquirer
+        .prompt([
+    {
         type: 'input',
-        name: 'managerName',
+        name: 'name',
+        message: "What is the employee's name?",
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: "What is the employee's ID?",
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What is the employee's email address?"
+    },
+    ])
+        .then((answers) => {
+         team.push(answers)
+            console.log(team)
+            addOns()
+
+            })
+    }
+
+const addManager = () => {
+inquirer
+.prompt([
+    {
+        type: 'input',
+        name: 'manager',
         message: "What is the team manager's name?",
     },
     {
         type: 'input',
-        name: 'managerId',
+        name: 'id',
         message: "What is the manager's employee ID?",
     },
     {
@@ -29,21 +76,34 @@ inquirer
     },
 ])
 .then((answers) => {
-    console.log(answers)
+    
+    team.push(answers);
+    console.log(team);
     addOns()
 })
-
+}
 const addOns = () => {
     inquirer.prompt([
         {
             type: 'list',
             name: 'teamAdds',
-            message: "Who else is on this team?",
-            choices: ["I would like to add an Engineer", "I would like to add an intern", "I am done building my team"],
+            message: "Who else would you like to add?",
+            choices: ["I would like to add a new manager", "I would like to add an Engineer", "I would like to add an intern", "I am done building my team"],
         }
     ])
-    .then((answer) => {
-        console.log(answer.teamAdds)
+    .then((addAnswers) => {
+        console.log(addAnswers.teamAdds)
+        if(addAnswers.teamAdds === "I would like to add an Engineer"){
+                teamMemberInfo();
+        }else if(addAnswers.teamAdds === "I would like to add an intern"){
+            teamInternInfo();
+        }else if(addAnswers.teamAdds === "I would like to add a new manager"){
+            addManager();
+        }
+        else{
+            renderHTML(answers);
+            console.log(answers);
+        }
     })
 }
 
@@ -52,12 +112,12 @@ const teamMemberInfo = () => {
     .prompt([
         {
             type: 'input',
-            name: 'engineerName',
+            name: 'engineer',
             message: "What is the team members's name?",
         },
         {
             type: 'input',
-            name: 'memberId',
+            name: 'id',
             message: "What is the team member's employee ID?",
         },
         {
@@ -72,7 +132,10 @@ const teamMemberInfo = () => {
         },
     ])
     .then((answers) => {
-        console.log(answers)
+        team.push(answers)
+        console.log(team)
+        addOns()
+
     })
     
     }
@@ -82,12 +145,12 @@ const teamMemberInfo = () => {
         .prompt([
             {
                 type: 'input',
-                name: 'internName',
-                message: "What is the team intern's name?",
+                name: 'intern',
+                message: "What is the intern's name?",
             },
             {
                 type: 'input',
-                name: 'internId',
+                name: 'id',
                 message: "Please input this person's employee ID.",
             },
             {
@@ -102,7 +165,9 @@ const teamMemberInfo = () => {
             },
         ])
         .then((answers) => {
-            console.log(answers)
+            team.push(answers)
+            console.log(team)
+            addOns()
         })
         
         }
