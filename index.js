@@ -1,7 +1,9 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const { title } = require('process');
-const Manager = require('./lib/Manager')
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const Employee = require('./lib/Employee');
 const renderHTML = require('./lib/generateHTML')
 const team = [];
 
@@ -12,18 +14,18 @@ inquirer
         type: 'list',
         name: 'starter',
         message: "What position would you like to add on the team?",
-        choices: ["manager", "engineer", "intern", "employee"],
+        choices: ["manager", "engineer", "intern", 'employee'],
     },
 ])
 .then((answers) => {
     if(answers.starter === "manager"){
         addManager()
     }else if(answers.starter === "engineer"){
-        teamMemberInfo()
+        addEngineer()
     }else if(answers.starter === "intern"){
-        teamInternInfo()
+        addIntern()
     }else {
-       fs.writeFileSync(path.join(__dirname,"/dist/", 'index.html'), renderHTML(team))
+       addEmployee()
     }
 })
 const addEmployee = () => {
@@ -46,7 +48,8 @@ const addEmployee = () => {
     },
     ])
         .then((answers) => {
-         team.push(answers)
+        const employee = new Employee(answers.name, answers.id, answers.email);
+         team.push(employee)
             console.log(team)
             addOns()
 
@@ -97,25 +100,25 @@ const addOns = () => {
     .then((addAnswers) => {
         console.log(addAnswers.teamAdds)
         if(addAnswers.teamAdds === "I would like to add an Engineer"){
-                teamMemberInfo();
+            addEngineer();
         }else if(addAnswers.teamAdds === "I would like to add an intern"){
-            teamInternInfo();
+            addIntern();
         }else if(addAnswers.teamAdds === "I would like to add a new manager"){
             addManager();
         }
         else{
-            renderCards(answers);
-            console.log(answers);
+            fs.writeFileSync(path.join(__dirname,"/dist/", 'index.html'), renderHTML(team))
+            console.log(team)
         }
     })
 }
 
-const teamMemberInfo = () => {
+const addEngineer = () => {
     inquirer
     .prompt([
         {
             type: 'input',
-            name: 'engineer',
+            name: 'name',
             message: "What is the team members's name?",
         },
         {
@@ -135,21 +138,21 @@ const teamMemberInfo = () => {
         },
     ])
     .then((answers) => {
-
-        team.push(answers)
-        console.log(team)
+        const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+        team.push(engineer);
+        console.log(team);
         addOns()
 
     })
     
     }
 
-    const teamInternInfo = () => {
+    const addIntern = () => {
         inquirer
         .prompt([
             {
                 type: 'input',
-                name: 'intern',
+                name: 'name',
                 message: "What is the intern's name?",
             },
             {
@@ -169,7 +172,8 @@ const teamMemberInfo = () => {
             },
         ])
         .then((answers) => {
-            team.push(answers)
+            const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+            team.push(intern)
             console.log(team)
             addOns()
         })
