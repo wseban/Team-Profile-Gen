@@ -112,8 +112,6 @@ const addOns = () => {
     })
 }
 const writeToFile = () => {
-
-    let renderFunction = renderHTML(team);
     console.log(team);
     fs.writeFileSync('./dist/index.html', renderHTML(team), 'utf-8');
     // fs.writeFile('./dist/index.html', renderHTML(team), (err) => {
