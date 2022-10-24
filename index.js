@@ -107,12 +107,19 @@ const addOns = () => {
             addManager();
         }
         else{
-            fs.writeFileSync(path.join(__dirname,"/dist/", 'index.html'), renderHTML(team))
-            console.log(team)
+            writeToFile()
         }
     })
 }
+const writeToFile = () => {
 
+    let renderFunction = renderHTML(team);
+    console.log(team);
+    fs.writeFileSync('./dist/index.html', renderHTML(team), 'utf-8');
+    // fs.writeFile('./dist/index.html', renderHTML(team), (err) => {
+        // err ? console.error(err) : console.log('Success!')
+    // })
+}
 const addEngineer = () => {
     inquirer
     .prompt([
