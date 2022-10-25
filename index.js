@@ -14,7 +14,7 @@ inquirer
         type: 'list',
         name: 'starter',
         message: "What position would you like to add on the team?",
-        choices: ["manager", "engineer", "intern", 'employee'],
+        choices: ["manager", "engineer", "intern"],
     },
 ])
 .then((answers) => {
@@ -24,37 +24,8 @@ inquirer
         addEngineer()
     }else if(answers.starter === "intern"){
         addIntern()
-    }else {
-       addEmployee()
     }
 })
-const addEmployee = () => {
-    inquirer
-        .prompt([
-    {
-        type: 'input',
-        name: 'name',
-        message: "What is the employee's name?",
-    },
-    {
-        type: 'input',
-        name: 'id',
-        message: "What is the employee's ID?",
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: "What is the employee's email address?"
-    },
-    ])
-        .then((answers) => {
-        const employee = new Employee(answers.name, answers.id, answers.email);
-         team.push(employee)
-            console.log(team)
-            addOns()
-
-            })
-    }
 
 const addManager = () => {
 inquirer

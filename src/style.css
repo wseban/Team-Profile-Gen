@@ -1,0 +1,39 @@
+:root {
+    --p1: aqua; 
+    --p2: #5D6D7E; 
+    --p3: #FDFEFE; 
+    --p4: #17202A; 
+    --p5: #0b3be2;
+    
+}
+body{
+    background-color: #0bb3e2;
+}
+header {
+    background-color: var(--p2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px
+    
+}
+h1 {
+    color: var(--p3);
+}
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.card {
+
+}
+
+.custom-manager {
+
+}
+
+.custom-header {
+    background-color: var(--p1);
+}
